@@ -9,20 +9,24 @@ import {
   Delete,
 } from '@nestjs/common';
 import { Observable, of } from 'rxjs';
-import { CreateCatDto } from './create-cat.dto';
-import { UpdateCatDto } from './update-cat.dto';
+import { CreateCatDto } from './dto/create-cat.dto';
+import { UpdateCatDto } from './dto/update-cat.dto';
+import { Cat } from './interfaces/cat.interface';
+import { CatsService } from './cats.service';
 
 @Controller('cats')
 export class CatsController {
+  constructor(private catsService: CatsService) {}
+
   @Post()
   @Header('Cache-Control', 'none')
-  create(@Body() createCatDto: CreateCatDto): string {
-    return 'This action adds a new cat';
+  create(@Body() createCatDto: CreateCatDto): void {
+    return this.catsService.create(createCatDto);
   }
 
   @Get()
-  findAll(): Observable<string> {
-    return of('This action returns all cats');
+  findAll(): Observable<Cat[]> {
+    return of(this.catsService.findAll());
   }
 
   @Get(':id')
