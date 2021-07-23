@@ -12,9 +12,12 @@ import { CatsModule } from './cats/cats.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './common/filter/http-exception.filter';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { AuthService } from './auth/auth.service';
 
 @Module({
-  imports: [CatsModule],
+  imports: [CatsModule, AuthModule, UsersModule],
   controllers: [AppController],
   providers: [
     AppService,
