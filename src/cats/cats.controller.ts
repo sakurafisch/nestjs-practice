@@ -19,12 +19,15 @@ import { Cat } from './interfaces/cat.interface';
 import { CatsService } from './cats.service';
 import { JoiValidationPipe } from 'src/common/pipe/joi-validation.pipe';
 import { ValidationPipe } from 'src/common/pipe/validation.pipe';
+import { Roles } from 'src/common/decorator/roles.decorator';
+import { Role } from 'src/common/enum/role.enum';
 
 @Controller('cats')
 export class CatsController {
   constructor(private catsService: CatsService) {}
 
   @Post()
+  @Roles(Role.Admin)
   @Header('Cache-Control', 'none')
   create(@Body(new ValidationPipe()) createCatDto: CreateCatDto): void {
     return this.catsService.create(createCatDto);
